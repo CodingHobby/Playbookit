@@ -1,0 +1,17 @@
+.dashboard {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+}
+
+.dashboard h1 {
+	align-self: center;
+	margin-bottom: 50px;
+}
+
+.dashboard .playbooks {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}

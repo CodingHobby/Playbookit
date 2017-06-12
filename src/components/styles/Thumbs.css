@@ -1,0 +1,73 @@
+.thumbnail {
+	background-color: #eee;
+	padding: 15px 30px;
+	width: 90%;
+	display: flex;
+	flex-direction: column;
+	border-radius: 5px;
+	transition: all 0.3s ease-in-out;
+	margin-bottom: 30px;
+}
+
+.thumbnail:hover {
+	cursor: pointer;
+	background-color: #e3e3e3;
+	margin-left: 20px;
+}
+
+.thumbnail h3 {
+	font-weight: 100;
+	font-size: 35px;
+	align-self: flex-start;
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+
+.thumbnail p {
+	font-size: 25px;
+	align-self: flex-start;
+}
+
+.thumbnail p.note {
+	font-size: 18px;
+	margin-top: 0;
+}
+
+.thumbnail form {
+	display: flex;
+	justify-content: row;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.thumbnail input[type="submit"] {
+	margin-left: 1%;
+	margin-bottom: 0;
+}
+
+.thumbnail form input[type="text"] {
+	width: 85%;
+	margin: 10px;
+}
+
+.thumbnail.playbook {
+	border-left: 10px solid green;
+}
+
+.thumbnail.playbook:hover {
+	border-left: 30px solid green;
+}
+
+.thumbnail.fiddle {
+	border-left: 10px solid lightskyblue;
+}
+
+.thumbnail.add:hover {
+	border-left: 10px solid green;
+	margin-left: 0;
+}
+
+.thumbnail.add .form-control {
+	padding: 10px;
+}
