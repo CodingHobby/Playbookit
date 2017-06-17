@@ -55,7 +55,7 @@ export default class App extends Component {
 						{/* Are we logged in? If we are then we want to render our home page, otherwise we want to render the login page */}
             <Route path="/" render={() => (
 							user ?
-								<Profile owner={user} editable={true}/> :
+								<Profile owner={user} editable/> :
 								<Redirect to="/login"/>
 						)}/>
           </Switch>
