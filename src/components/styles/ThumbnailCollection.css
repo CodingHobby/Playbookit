@@ -1,4 +1,4 @@
-.playbooks {
+.thumbnails {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -6,7 +6,7 @@
 	padding-left: 30px;
 }
 
-.playbooks h1 {
+.thumbnails h1 {
 	font-weight: 100;
 	font-size: 50px;
 	align-self: flex-start;

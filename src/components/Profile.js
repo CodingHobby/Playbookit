@@ -6,7 +6,7 @@ import Spinner from 'react-spinner'
 
 import Thumbnail from './Thumbnail'
 import './styles/Profile.css'
-import './styles/Dashboard.css'
+import './styles/ThumbnailCollection.css'
 
 export default class Profile extends Component {
 	constructor(props) {
@@ -55,11 +55,10 @@ export default class Profile extends Component {
 
   renderEditable() {
     return (
-      <div className="playbooks">
+      <div className="thumbnails">
 				<h1>{this.props.owner.displayName}</h1>
-				{/* TODO: here we actually want to loop over the state.playbooks stuff */}
-        {this.renderPlaybooks()}
-        <Thumbnail title="" subtitle="" type="add playbook" note="">
+        {this.renderPlaybooks(true)}
+        <Thumbnail type="add playbook">
           <form onSubmit={this.addPlaybook.bind(this)}>
             <input type="text" className="form-control" ref="title"/>
             <input type="submit" value="Add" className="btn btn-blue"/>
@@ -70,7 +69,7 @@ export default class Profile extends Component {
   }
 
 	renderLoading() {
-		return(
+		return (
 			<Spinner/>
 		)
 	}
@@ -79,7 +78,7 @@ export default class Profile extends Component {
     return (
       <div className="playbooks">
 				<h1>{this.props.owner.displayName}</h1>
-        {this.renderPlaybooks()}
+        {this.renderPlaybooks(false)}
       </div>
     )
   }
@@ -95,6 +94,7 @@ export default class Profile extends Component {
 			.set({
 				title,
 				owner: this.props.owner.uid,
+				ownerDisplayName: this.props.owner.displayName,
 				fiddles: []
 			})
 		this.setState({title, submitted: true})
@@ -106,7 +106,7 @@ export default class Profile extends Component {
 		)
 	}
 
-	renderPlaybooks() {
+	renderPlaybooks(displayAuth) {
 		const playbooks = this.state.playbooks
 		return playbooks.map((playbook, i) => (
 			<Link to={`${playbook.owner}/${playbook.title}`} key={i}>

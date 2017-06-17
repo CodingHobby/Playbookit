@@ -63,8 +63,12 @@
 	border-left: 10px solid lightskyblue;
 }
 
+.thumbnail.fiddle:hover {
+	border-left: 30px solid lightskyblue;
+}
+
 .thumbnail.add:hover {
-	border-left: 10px solid green;
+	border-left-width: 10px;
 	margin-left: 0;
 }
 

@@ -11,7 +11,7 @@ import './styles/Error.css'
 import Fiddle from './Fiddle'
 import Login from './Login'
 import Nav from './Nav'
-import PlaybookEditor from './PlaybookEditor'
+import Playbook from './Playbook'
 import Profile from './Profile'
 import Register from './Register'
 
@@ -51,7 +51,7 @@ export default class App extends Component {
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
             <Route path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
-            <Route path="/:user/:playbook/" component={PlaybookEditor} user={user}/>
+            <Route path="/:user/:playbook/" component={Playbook} user={user}/>
             <Route path="/:user" component={Profile} user={user}/>
 						{/* Are we logged in? If we are then we want to render our home page, otherwise we want to render the login page */}
             <Route path="/" render={() => (
