@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
+import firebase from 'firebase'
+
 
 import Thumbnail from './Thumbnail'
 import './styles/Profile.css'
@@ -9,7 +11,7 @@ import './styles/Dashboard.css'
 export default class Profile extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {}
+		this.state = {submitted: false}
 	}
 
 	componentDidMount() {
@@ -18,7 +20,9 @@ export default class Profile extends Component {
 
   render() {
     return (
-      this.props.editable ? this.renderEditable() : this.renderPreview()
+      !this.state.submitted
+				? (this.props.editable ? this.renderEditable() : this.renderPreview())
+				: this.renderRedirect()
     )
   }
 
@@ -26,8 +30,9 @@ export default class Profile extends Component {
     return (
       <div className="playbooks">
 				<h1>{this.props.owner.displayName}</h1>
-        <Link to={`${this.props.owner.uid}/${this.props.title}`}>
-          <Thumbnail title={"Title"} subtitle="subtitle" type="playbook" note={this.props.owner.displayName}/>
+				{/* TODO: here we actually want to loop over the state.playbooks stuff */}
+        <Link to={`${this.props.owner.uid}/Title`}>
+          <Thumbnail title={"Title"} subtitle="subtitle" type="playbook"/>
         </Link>
         <Thumbnail title="" subtitle="" type="add playbook" note="">
           <form onSubmit={this.addPlaybook.bind(this)}>
@@ -56,5 +61,21 @@ export default class Profile extends Component {
     const title = this.refs.title.value
     console.log(title)
     this.refs.title.value = ""
+		// Set the value of a new node in the firebase database
+		// Possibly we'd want to change the owner property to the displayName of the current user, that way we'll be able to have both uid and displayName without having to go through a large amount of key-value pairs
+		firebase.database()
+			.ref(`/${this.props.owner.uid}/${title}`)
+			.set({
+				title,
+				owner: this.props.owner.uid,
+				fiddles: []
+			})
+		this.setState({title, submitted: true})
   }
+
+	renderRedirect() {
+		return(
+			<Redirect to={`${this.props.owner.uid}/${this.state.title}`}/>
+		)
+	}
 }

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import firebase from 'firebase'
 import Spinner from 'react-spinner'
+
 import './styles/App.css'
 import './styles/Inputs.css'
 import './styles/Auth.css'
@@ -14,7 +15,7 @@ import PlaybookEditor from './PlaybookEditor'
 import Profile from './Profile'
 import Register from './Register'
 
-/* Default export  class */
+
 export default class App extends Component {
 	// Set the initial state (no user)
 	constructor(props) {
