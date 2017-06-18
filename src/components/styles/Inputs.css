@@ -2,7 +2,6 @@
 .btn {
   display: inline-block;
   width: 200px;
-  margin: 10px;
   padding: 15px 25px;
   font-size: 30px;
   background-color: #e3e3e3;
@@ -10,7 +9,6 @@
   border: none;
   transition: all 0.3s ease-in-out;
   text-align: center;
-  font-size: 30px;
   margin: 0;
 }
 
@@ -23,9 +21,37 @@
 	outline: none;
 }
 
+.btn-green {
+  background-color: green;
+  color: #eee;
+}
+
+.btn-green:hover {
+  background-color: #009a00;
+}
+
+.btn-blue {
+  background-color: #79B9E1;
+  color: #eee;
+}
+
+.btn-blue:hover {
+  background-color: #8ec4e6;
+}
+
+.btn-red {
+  background-color: #F44242;
+  color: #eee;
+}
+
+.btn-red:hover {
+  background-color: #f55a5a;
+}
+
 .button-group {
   display: flex;
 }
+
 .button-group .btn {
   margin: 2px;
 }
@@ -33,7 +59,17 @@
 .btn-submit {
 	align-self: left;
 	margin-left: 4.2%;
-	margin-top: 20px;
+	margin-top: 10px;
+}
+
+.login-buttons {
+  margin-left: 5%;
+  margin-top: 30px;
+}
+
+.login-buttons .btn {
+  margin-right: 20px;
+  padding: 10px 15px;
 }
 
 .form-control {
@@ -46,6 +82,7 @@
   transition: all 0.3s ease-in-out;
   width: 90%;
 }
+
 .form-control:focus {
   outline: none;
   padding: 20px;

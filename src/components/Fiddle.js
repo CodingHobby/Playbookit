@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Spinner from 'react-spinner'
 import firebase from 'firebase'
+
 import './styles/Editor.css'
 
 export default class Fiddle extends Component {
@@ -15,9 +16,9 @@ export default class Fiddle extends Component {
 			.on('value', snap => {
 				const snapshot = snap.val()
 				if (snapshot) {
-					this.setState({...snapshot})
-					this.setState({ editable: this.props.match.params.user === this.state.owner })
 					this.refs.editor.innerText = snapshot.content
+					this.setState(snapshot)
+					this.setState({ editable: this.props.match.params.user === snapshot.owner })
 				}
 			})
 
@@ -44,8 +45,10 @@ export default class Fiddle extends Component {
 			this.state !== {}
 				? (
 					<div className="fiddle">
-						<h1>{this.state.ownerDisplayName}: {this.state.playbook}</h1>
-						<h3>{this.state.title}</h3>
+						<div className="title">
+							<h1>{this.state.ownerDisplayName}: {this.state.playbook}</h1>
+							<h3>{this.state.title}</h3>
+						</div>
 						<pre className="editor" contentEditable={this.state.editable} ref="editor"></pre>
 						{
 							this.state.editable
@@ -55,7 +58,7 @@ export default class Fiddle extends Component {
 					</div>
 				)
 				: (
-					<Spinner />
+					<Spinner/>
 				)
 		)
 	}

@@ -40,7 +40,7 @@ export default class Profile extends Component {
 	renderPlaybooks() {
 		const playbooks = this.state.playbooks
 		return playbooks.map((playbook, i) => (
-			<Link to={`${playbook.owner}/${playbook.title}`} key={i}>
+			<Link to={`/${playbook.owner}/${playbook.title}`} key={i}>
 			<Thumbnail title={playbook.title} type="playbook"/>
 			</Link>
 		))

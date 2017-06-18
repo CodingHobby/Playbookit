@@ -41,7 +41,7 @@ export default class Playbook extends Component {
 	renderFiddles() {
 		const fiddles = this.state.fiddles
 		return fiddles.map((fiddle, i) => (
-			<Link to={`${fiddle.playbook}/${fiddle.title}`} key={i} replace>
+			<Link to={`/${fiddle.owner}/${fiddle.playbook}/${fiddle.title}`} key={i} replace>
 			<Thumbnail title={fiddle.title} type="fiddle"/>
 			</Link>
 		))
@@ -83,7 +83,7 @@ export default class Playbook extends Component {
 	// Redirect to the fiddle editing page
 	renderRedirect() {
 		return (
-			<Redirect to={`${this.props.match.params.user}/${this.props.match.params.playbook}/${this.state.title}`}/>
+			<Redirect to={`/${this.props.match.params.user}/${this.props.match.params.playbook}/${this.state.title}`}/>
 		)
 	}
 
@@ -103,8 +103,10 @@ export default class Playbook extends Component {
 				playbook: this.props.match.params.playbook,
 				content: ""
 			})
-		// Update the state so that we can re-render
-		this.setState({title, submitted: true})
+			.then(() => {
+				// Update the state so that we can re-render
+				this.setState({ title, submitted: true })
+			})
 	}
 
 	// Render page based on the various conditions we need to decide what to render

@@ -48,8 +48,8 @@ export default class App extends Component {
 					{/* Switch is important for pattern-matching in the routes: it will match the first route it finds, so that's why the seem like they're in a weird order */}
 					<div className="content">
           <Switch>
-            <Route path="/login" component={Login}/>
-            <Route path="/register" component={Register}/>
+            <Route path="/login" component={Login} user={user}/>
+            <Route path="/register" component={Register} user={user}/>
             <Route path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
             <Route path="/:user/:playbook/" component={Playbook} user={user}/>
             <Route path="/:user" component={Profile} user={user}/>
