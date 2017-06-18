@@ -1,3 +1,4 @@
+// TODO: get rid of duplication (abstract away stuff from Playbook.js)
 import React, {Component} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import firebase from 'firebase'
@@ -35,29 +36,40 @@ export default class Profile extends Component {
 			})
 	}
 
-  render() {
-		// This seems like a crazy complicated bool checking nightmare, and it is, but all that it's doing is it's checking whether
-		/*
-			1. We've submitted the form. If we have then we want to redirect otherwise we don't
-			2. We've loaded the data, and if we haven't we want to load an animation
-			3. We can edit the profile
-		*/
-    return (
-      !this.state.submitted
-				? (this.state.playbooks !== undefined
-					? (this.props.editable
-						? this.renderEditable()
-						: this.renderPreview())
-					: this.renderLoading())
-				: this.renderRedirect()
-    )
-  }
+	// Render playbooks based on the state
+	renderPlaybooks() {
+		const playbooks = this.state.playbooks
+		return playbooks.map((playbook, i) => (
+			<Link to={`${playbook.owner}/${playbook.title}`} key={i}>
+			<Thumbnail title={playbook.title} type="playbook"/>
+			</Link>
+		))
+	}
 
+	// Render loading animation
+	renderLoading() {
+		return (
+			<Spinner/>
+		)
+	}
+
+
+	// Render non-editable preview
+	renderPreview() {
+		return (
+			<div className="playbooks">
+			<h1>{this.props.owner.displayName}</h1>
+			{this.renderPlaybooks()}
+			</div>
+		)
+	}
+
+	// Render the editable profile template
   renderEditable() {
     return (
       <div className="thumbnails">
 				<h1>{this.props.owner.displayName}</h1>
-        {this.renderPlaybooks(true)}
+        {this.renderPlaybooks()}
         <Thumbnail type="add playbook">
           <form onSubmit={this.addPlaybook.bind(this)}>
             <input type="text" className="form-control" ref="title"/>
@@ -68,20 +80,12 @@ export default class Profile extends Component {
     )
   }
 
-	renderLoading() {
-		return (
-			<Spinner/>
+
+	renderRedirect() {
+		return(
+			<Redirect to={`${this.props.owner.uid}/${this.state.title}`}/>
 		)
 	}
-
-  renderPreview() {
-    return (
-      <div className="playbooks">
-				<h1>{this.props.owner.displayName}</h1>
-        {this.renderPlaybooks(false)}
-      </div>
-    )
-  }
 
   addPlaybook(e) {
     e.preventDefault()
@@ -100,18 +104,26 @@ export default class Profile extends Component {
 		this.setState({title, submitted: true})
   }
 
-	renderRedirect() {
-		return(
-			<Redirect to={`${this.props.owner.uid}/${this.state.title}`}/>
+	// Render page
+	render() {
+		// This seems like a crazy complicated bool checking nightmare, and it is, but all that it's doing is it's checking whether
+		/*
+		1. We've submitted the form. If we have then we want to redirect otherwise we don't
+		2. We've loaded the data, and if we haven't we want to load an animation
+		3. We can edit the profile
+		*/
+		return (
+			this.state.submitted
+			? this.renderRedirect()
+			: (
+				this.state.playbooks !== undefined
+				? (
+					this.props.editable
+					? this.renderEditable()
+					: this.renderPreview()
+				)
+				: this.renderLoading()
+			)
 		)
-	}
-
-	renderPlaybooks(displayAuth) {
-		const playbooks = this.state.playbooks
-		return playbooks.map((playbook, i) => (
-			<Link to={`${playbook.owner}/${playbook.title}`} key={i}>
-				<Thumbnail title={playbook.title} type="playbook"/>
-			</Link>
-		))
 	}
 }

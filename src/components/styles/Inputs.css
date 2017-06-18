@@ -30,6 +30,12 @@
   margin: 2px;
 }
 
+.btn-submit {
+	align-self: left;
+	margin-left: 4.2%;
+	margin-top: 20px;
+}
+
 .form-control {
   display: block;
   border: none;

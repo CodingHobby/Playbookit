@@ -1,0 +1,29 @@
+.editor {
+	margin-top: 50px;
+	width: 90%;
+	background-color: #eee;
+	text-align: left;
+	padding: 15px;
+	font-size: 20px;
+	min-height: 300px;
+	transition: all 0.3s ease-in-out;
+}
+
+.editor:focus {
+	outline: none;
+	padding: 20px;
+}
+
+.editor pre:focus {
+	outline: none;
+	width: 100%;
+	height: 100%;
+}
+
+.fiddle {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 50px;
+}
