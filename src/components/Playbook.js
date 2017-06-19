@@ -20,7 +20,14 @@ export default class Playbook extends Component {
 		// We want to get the displayName of the user, not just his uid
 		firebase.database()
 			.ref(`/users/${this.props.match.params.user}`)
-			.once('value', snap => this.setState({ownerDisplayName: snap.val().displayName}))
+			.once('value', snap => {
+				// Does the user uid exist?
+				if(snap.val()) {
+					this.setState({ ownerDisplayName: snap.val().displayName })
+				} else {
+					this.setState({ownerDisplayName: null})
+				}
+			})
 
 		// Put an event listener on the change of the db data
 		firebase.database()
@@ -32,8 +39,11 @@ export default class Playbook extends Component {
 					// Loop over the db data's keys
 					const ks = Object.keys(snapshot)
 					ks.forEach(k => fiddles.push(snapshot[k]))
+					this.setState({ fiddles })
+				} else {
+					// Null is needed to signal the fact that we should redirect to the 404 page
+					this.setState({fiddles: null})
 				}
-				this.setState({fiddles})
 			})
 	}
 
@@ -56,12 +66,17 @@ export default class Playbook extends Component {
 
 	// Render playbook preview
 	renderPreview() {
-		return (
-			<div className="thumbnails">
-			<h1>{this.state.ownerDisplayName}: {this.props.match.params.playbook}</h1>
-			{this.renderFiddles()}
-			</div>
-		)
+		// Do we NOT have a 404 error?
+		return this.state.fiddles !== null && this.state.ownerDisplayName !== null
+			? (
+					<div className="thumbnails">
+					<h1>{this.state.ownerDisplayName}: {this.props.match.params.playbook}</h1>
+					{this.renderFiddles()}
+					</div>
+			)
+			: (
+					<Redirect to="/404"/>
+			)
 	}
 
 	// Render editable playbook
@@ -115,7 +130,7 @@ export default class Playbook extends Component {
 			this.state.submitted
 				? this.renderRedirect()
 				: (
-						this.state.ownerDisplayName
+						this.state.ownerDisplayName !== undefined
 						? (
 								this.state.editable
 									? this.renderEditable()

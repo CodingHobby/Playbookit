@@ -8,6 +8,7 @@ import './styles/Inputs.css'
 import './styles/Auth.css'
 import './styles/Error.css'
 
+import Error404 from './Error404'
 import Fiddle from './Fiddle'
 import Login from './Login'
 import Nav from './Nav'
@@ -48,17 +49,19 @@ export default class App extends Component {
 					{/* Switch is important for pattern-matching in the routes: it will match the first route it finds, so that's why the seem like they're in a weird order */}
 					<div className="content">
           <Switch>
-            <Route path="/login" component={Login} user={user}/>
-            <Route path="/register" component={Register} user={user}/>
-            <Route path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
-            <Route path="/:user/:playbook/" component={Playbook} user={user}/>
-            <Route path="/:user" component={Profile} user={user}/>
+						<Route exact path="/404" component={Error404}/>
+            <Route exact path="/login" component={Login} user={user}/>
+            <Route exact path="/register" component={Register} user={user}/>
+            <Route exact path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
+            <Route exact path="/:user/:playbook/" component={Playbook} user={user}/>
+            <Route exact path="/:user" component={Profile} user={user}/>
 						{/* Are we logged in? If we are then we want to render our home page, otherwise we want to render the login page */}
-            <Route path="/" render={() => (
+            <Route exact path="/" render={() => (
 							user ?
 								<Profile owner={user} editable/> :
 								<Redirect to="/login"/>
 						)}/>
+						<Route component={Error404}/>
           </Switch>
 					</div>
         </div>

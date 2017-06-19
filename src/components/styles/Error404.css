@@ -1,0 +1,16 @@
+.err404 h1,
+.err404 h3 {
+	font-weight: 100;
+}
+
+.err404 h1 {
+	font-size: 40px;
+}
+
+.err404 h3 {
+	font-size: 30px;
+}
+
+.err404 img {
+	width: 600px;
+}

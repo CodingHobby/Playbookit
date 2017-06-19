@@ -21,7 +21,7 @@ export default class Profile extends Component {
 		if(this.props.match) {
 			ref = `${this.props.match.params.user}/`
 		} else {
-			ref = `${firebase.auth().currentUser.uid}`
+			ref = `${this.props.owner.uid}/`
 		}
 		firebase.database()
 			.ref(ref)
@@ -31,8 +31,10 @@ export default class Profile extends Component {
 				if(snapshot) {
 					let ks = Object.keys(snapshot)
 					ks.forEach(k => playbooks.push(snapshot[k]))
+					this.setState({ playbooks })
+				} else {
+					this.setState({playbooks: null})
 				}
-				this.setState({playbooks})
 			})
 	}
 
@@ -56,13 +58,17 @@ export default class Profile extends Component {
 
 	// Render non-editable preview
 	renderPreview() {
-		return (
-			<div className="playbooks">
-			<h1>{this.props.owner.displayName}</h1>
-			{this.renderPlaybooks()}
-			</div>
-		)
-	}
+		return this.state.playbooks !== null
+				? (
+						<div className="playbooks">
+							<h1>{this.props.owner.displayName}</h1>
+							{this.renderPlaybooks()}
+						</div>
+				)
+				: (
+					<Redirect to="/404"/>
+				)
+		}
 
 	// Render the editable profile template
   renderEditable() {
@@ -83,7 +89,7 @@ export default class Profile extends Component {
 
 	renderRedirect() {
 		return(
-			<Redirect to={`${this.props.owner.uid}/${this.state.title}`}/>
+			<Redirect to={`/${this.props.owner.uid}/${this.state.title}`}/>
 		)
 	}
 
