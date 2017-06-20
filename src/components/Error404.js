@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
-import './styles/Error404.css'
-import err404 from './404err.gif'
+import './assets/styles/Error404.css'
+import err404 from './assets/img/404err.gif'
 
 export default class Error404 extends Component {
 	render() {

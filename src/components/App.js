@@ -3,10 +3,10 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import firebase from 'firebase'
 import Spinner from 'react-spinner'
 
-import './styles/App.css'
-import './styles/Inputs.css'
-import './styles/Auth.css'
-import './styles/Error.css'
+import './assets/styles/App.css'
+import './assets/styles/Inputs.css'
+import './assets/styles/Auth.css'
+import './assets/styles/Error.css'
 
 import Error404 from './Error404'
 import Fiddle from './Fiddle'
@@ -30,7 +30,7 @@ export default class App extends Component {
 	// As soon as the component is mounted add an event listener for changes in the auth state and set the component's state to the new user
 	componentDidMount() {
     firebase.auth()
-			.onAuthStateChanged(user => {
+			.onAuthStateChanged((user) => {
 				this.setState({user})
 			})
   }

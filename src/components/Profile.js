@@ -1,4 +1,4 @@
-// TODO: get rid of duplication (abstract away stuff from Playbook.js)
+// TODO: get rid of duplication (abstract away stuff from Playbook.js, too)
 import React, {Component} from 'react'
 import {Link, Redirect} from 'react-router-dom'
 import firebase from 'firebase'
@@ -6,8 +6,8 @@ import Spinner from 'react-spinner'
 
 
 import Thumbnail from './Thumbnail'
-import './styles/Profile.css'
-import './styles/ThumbnailCollection.css'
+import './assets/styles/Profile.css'
+import './assets/styles/ThumbnailCollection.css'
 
 export default class Profile extends Component {
 	constructor(props) {
@@ -17,6 +17,7 @@ export default class Profile extends Component {
 
 	componentDidMount() {
 		let ref = null;
+		// Find the right path for firebase data
 		if(this.props.match) {
 			ref = `${this.props.match.params.user}/`
 		} else {
@@ -26,6 +27,7 @@ export default class Profile extends Component {
 			firebase.database()
 				.ref(`/users/${this.props.match.params.user}`)
 				.once('value', snap => {
+					// Grab user data from firebase
 					const snapshot = snap.val()
 					if(snapshot) {
 						this.setState({ownerDisplayName: snapshot.displayName})
@@ -37,6 +39,7 @@ export default class Profile extends Component {
 		firebase.database()
 			.ref(ref)
 			.on('value', (snap) => {
+				// Grab profile data from firebase
 				let playbooks = []
 				const snapshot = snap.val()
 				if(snapshot) {

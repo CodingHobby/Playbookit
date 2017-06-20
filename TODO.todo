@@ -10,7 +10,7 @@ Data storage:
 	✔ Retrieve data from Firebase when needed @done (18/06/2017, 22:18:43)
 	✔ Avoid async-related problems (such as data loading after the page) @done (18/06/2017, 22:18:44)
 	✔ Display loading animation @done (18/06/2017, 22:28:39)
-	☐ Store sandbox one-liners in Firebase
+	✔ Store sandbox one-liners in Firebase @done (20/06/2017, 16:25:22)
 
 Features:
 	✔ Multiple users with multiple playbooks with multiple fiddles @done (18/06/2017, 22:18:51)
@@ -33,7 +33,7 @@ Editor:
 	☐ Automatic bracket insertion
 
 Sandbox:
-	☐ Store in Firebase
+	✔ Store in Firebase @done (20/06/2017, 16:25:45)
 	☐ Live snippet evaluation
 	☐ Delete snippets
 	☐ Command palette with different, dynamic commands (possibly store in a separate Commands.js files)

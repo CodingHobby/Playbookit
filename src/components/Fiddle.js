@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Spinner from 'react-spinner'
 import firebase from 'firebase'
 import {Redirect} from 'react-router-dom'
-import './styles/Editor.css'
+import './assets/styles/Editor.css'
 
 export default class Fiddle extends Component {
 	constructor(props) {

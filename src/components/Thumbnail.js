@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import './styles/Thumbs.css'
+import './assets/styles/Thumbs.css'
 
 export default class Thumbnail extends Component {
 	render() {
