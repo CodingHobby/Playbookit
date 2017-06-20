@@ -31,21 +31,21 @@
 }
 
 .btn-blue {
-  background-color: #79B9E1;
+  background-color: #5bc0de;
   color: #eee;
 }
 
 .btn-blue:hover {
-  background-color: #8ec4e6;
+  background-color: #31b0d5;
 }
 
 .btn-red {
-  background-color: #F44242;
+  background-color: #d9534f;
   color: #eee;
 }
 
 .btn-red:hover {
-  background-color: #f55a5a;
+  background-color: #c9302c;
 }
 
 .button-group {
@@ -87,4 +87,15 @@
   outline: none;
   padding: 20px;
   width: 95%;
+}
+
+.static-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 25px;
+  border-radius: 5px;
+  width: 100px;
+  font-size: 20px;
+  color: white;
 }

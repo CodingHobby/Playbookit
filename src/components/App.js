@@ -15,7 +15,7 @@ import Nav from './Nav'
 import Playbook from './Playbook'
 import Profile from './Profile'
 import Register from './Register'
-
+import Sandbox from './Sandbox'
 
 export default class App extends Component {
 	// Set the initial state (no user)
@@ -45,13 +45,15 @@ export default class App extends Component {
       <Router>
         <div className="App">
 					{/* Navigation with links to different pages */}
-          <Nav/>
+          <Nav user={user}/>
 					{/* Switch is important for pattern-matching in the routes: it will match the first route it finds, so that's why the seem like they're in a weird order */}
 					<div className="content">
           <Switch>
 						<Route exact path="/404" component={Error404}/>
             <Route exact path="/login" component={Login} user={user}/>
             <Route exact path="/register" component={Register} user={user}/>
+						{/* We need to use this impractically long URL so that we avoid conficlict between this and playbooks*/}
+						<Route exact path="/:user/profile/code/sandbox" component={Sandbox} user={user}/>
             <Route exact path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
             <Route exact path="/:user/:playbook/" component={Playbook} user={user}/>
             <Route exact path="/:user" component={Profile} user={user}/>

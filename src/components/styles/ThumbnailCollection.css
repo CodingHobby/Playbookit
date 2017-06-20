@@ -1,7 +1,7 @@
 .thumbnails {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
+	width: calc(100% - 30px);
 	margin-top: 30px;
 	padding-left: 30px;
 }

@@ -18,6 +18,11 @@ export default class Nav extends Component {
 						<li>
 							<NavLink to="/register" activeClassName="active">Register</NavLink>
 						</li>
+						{
+							this.props.user
+								? <li><NavLink to={`/${this.props.user.uid}/profile/code/sandbox`} activeClassName="active">Sandbox</NavLink></li>
+								: ""
+						}
 					</ul>
 				</nav>
 			</div>

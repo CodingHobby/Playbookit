@@ -9,6 +9,7 @@
 	transition: all 0.3s ease-in-out;
 	overflow-y: scroll;
 	margin-bottom: 0;
+	line-height: 25px;
 }
 
 .editor::-webkit-scrollbar-track

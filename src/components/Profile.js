@@ -16,12 +16,23 @@ export default class Profile extends Component {
 	}
 
 	componentDidMount() {
-		// TODO: check if this expression is still valid if we are not looking at an editable playbook
 		let ref = null;
 		if(this.props.match) {
 			ref = `${this.props.match.params.user}/`
 		} else {
 			ref = `${this.props.owner.uid}/`
+		}
+		if(!this.props.owner) {
+			firebase.database()
+				.ref(`/users/${this.props.match.params.user}`)
+				.once('value', snap => {
+					const snapshot = snap.val()
+					if(snapshot) {
+						this.setState({ownerDisplayName: snapshot.displayName})
+					} else {
+						this.setState({ownerDisplayName: null})
+					}
+				})
 		}
 		firebase.database()
 			.ref(ref)
@@ -41,11 +52,13 @@ export default class Profile extends Component {
 	// Render playbooks based on the state
 	renderPlaybooks() {
 		const playbooks = this.state.playbooks
-		return playbooks.map((playbook, i) => (
-			<Link to={`/${playbook.owner}/${playbook.title}`} key={i}>
-			<Thumbnail title={playbook.title} type="playbook"/>
-			</Link>
-		))
+		if(this.state.playbooks) {
+			return playbooks.map((playbook, i) => (
+				<Link to={`/${playbook.owner}/${playbook.title}`} key={i}>
+					<Thumbnail title={playbook.title} type="playbook" />
+				</Link>
+			))
+		}
 	}
 
 	// Render loading animation
@@ -60,8 +73,8 @@ export default class Profile extends Component {
 	renderPreview() {
 		return this.state.playbooks !== null
 				? (
-						<div className="playbooks">
-							<h1>{this.props.owner.displayName}</h1>
+						<div className="thumbnails">
+							<h1>{this.props.owner ? this.props.owner.displayName : this.state.ownerDisplayName}</h1>
 							{this.renderPlaybooks()}
 						</div>
 				)
@@ -95,7 +108,6 @@ export default class Profile extends Component {
 
   addPlaybook(e) {
     e.preventDefault()
-    // TODO: push data to firebase
     const title = this.refs.title.value
 		// Set the value of a new node in the firebase database
 		// Possibly we'd want to change the owner property to the displayName of the current user, that way we'll be able to have both uid and displayName without having to go through a large amount of key-value pairs
@@ -122,7 +134,7 @@ export default class Profile extends Component {
 			this.state.submitted
 			? this.renderRedirect()
 			: (
-				this.state.playbooks !== undefined
+				this.state.playbooks !== undefined && this.state.ownerDisplayName !== null
 				? (
 					this.props.editable
 					? this.renderEditable()

@@ -50,11 +50,13 @@ export default class Playbook extends Component {
 	// Render the fiddle preview
 	renderFiddles() {
 		const fiddles = this.state.fiddles
-		return fiddles.map((fiddle, i) => (
-			<Link to={`/${fiddle.owner}/${fiddle.playbook}/${fiddle.title}`} key={i} replace>
-			<Thumbnail title={fiddle.title} type="fiddle"/>
-			</Link>
-		))
+		if(this.state.fiddles) {
+			return fiddles.map((fiddle, i) => (
+				<Link to={`/${fiddle.owner}/${fiddle.playbook}/${fiddle.title}`} key={i} replace>
+					<Thumbnail title={fiddle.title} type="fiddle" />
+				</Link>
+			))
+		}
 	}
 
 	// Render loading animation
