@@ -118,7 +118,7 @@ export default class Playbook extends Component {
 				owner: this.props.match.params.user,
 				ownerDisplayName: this.state.ownerDisplayName,
 				playbook: this.props.match.params.playbook,
-				content: ""
+				segments: ["2 + 2"]
 			})
 			.then(() => {
 				// Update the state so that we can re-render

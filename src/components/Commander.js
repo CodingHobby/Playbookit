@@ -3,8 +3,7 @@ import React, {Component} from 'react'
 import './assets/styles/Commander.css'
 
 import Command from './Command'
-// We store all the command data in a separate file
-import commands from './Commands'
+
 
 export default class Commander extends Component {
 	constructor(props) {
@@ -13,13 +12,13 @@ export default class Commander extends Component {
 	}
 
 	componentWillMount() {
-		this.setState({commands})
+		this.setState({commands: this.props.commands})
 	}
 
 	componentDidMount() {
 		// Automatically add an event listener for every command in the "commands" array
 		document.addEventListener('keydown', e => {
-			commands.forEach(command => {
+			this.state.commands.forEach(command => {
 				// Does the key combination which was pressed match any event's?
 				if(e.altKey === command.shortcut.altKey 
 					&& e.ctrlKey === command.shortcut.ctrlKey 

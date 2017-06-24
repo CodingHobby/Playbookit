@@ -1,9 +1,20 @@
+Current task:
+	☐ Refractoring!!
+
+Immidiate Todos:
+	☐ Profile images + Identicons
+	✔ Possibly change playbooks and fiddles to "stories", kinda like the sandbox @done (24/06/2017, 17:20:36)
+
 Authentication:
 	✔ Registration @done (18/06/2017, 22:18:36)
 	✔ Login @done (18/06/2017, 22:18:37)
 	✔ Logout @done (18/06/2017, 22:18:38)
 	✔ Forms @done (18/06/2017, 22:18:38)
 	✔ Proper error handling @done (18/06/2017, 22:18:39)
+	☐ Profile image
+		☐ firebase.storage()
+		☐ firebase.auth().user.profileImageUrl
+		☐ Identicons
 
 Data storage:
 	✔ Store data on Firebase @done (18/06/2017, 22:18:42)
@@ -19,21 +30,29 @@ Features:
 	☐ Syntax highlighting
 	☐ Deleting users, playbooks and fiddles
 	☐ Quickly switching between fiddles of the same playbook (something like a command palette)
-	☐ Sandbox section, where you can have different one-liners to test: this will be unique and stored as an array in Firebase
-		☐ Command palette
+	✔ Sandbox section, where you can have different one-liners to test: this will be unique and stored as an array in Firebase @done (20/06/2017, 23:44:26)
+		✔ Command palette @done (20/06/2017, 23:44:27)
 	☐ Better navigation
+		☐ User related links in a drop down
 	☐ Re-styling
+		☐ Login and Registration forms need to look better
+		☐ Always have a user icon with the profile image in the top left of the app
+		☐ Possibly use font awesome or some other icon set to display better CTAs
 	✔ 404 errors @done (19/06/2017, 22:36:42)
 
 Editor:
+	☐ Possibly split into separate framework
 	✔ Tabbing @done (18/06/2017, 22:21:26)
 	☐ Syntax highlighting
 	☐ Automatic indent
 	☐ Bracket matching
 	☐ Automatic bracket insertion
+	☐ Make more similar to "sandbox": insert pieces of codes interrupted by pieces of text
+	☐ Add description + possibility to set a language
 
 Sandbox:
 	✔ Store in Firebase @done (20/06/2017, 16:25:45)
-	☐ Live snippet evaluation
-	☐ Delete snippets
-	☐ Command palette with different, dynamic commands (possibly store in a separate Commands.js files)
+	✔ Live snippet evaluation @done (20/06/2017, 23:42:36)
+	✔ Delete snippets @done (20/06/2017, 23:42:34)
+	✔ Command palette with different, dynamic commands (possibly store in a separate Commands.js files) @done (20/06/2017, 23:42:37)
+	✔ Add and remove segments @done (20/06/2017, 23:42:47)

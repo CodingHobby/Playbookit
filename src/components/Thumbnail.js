@@ -11,6 +11,7 @@ export default class Thumbnail extends Component {
 				{this.props.children}
 				{this.props.subtitle ? <p>{this.props.subtitle}</p> : ""}
 				{this.props.note ? <p className="note">{this.props.note}</p> : ""}
+				{this.props.removable ? <button className="btn btn-red btn-delete" onClick={this.props.onClick}>x</button> : ""}
 			</div>
 		)
 	}

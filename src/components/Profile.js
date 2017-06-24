@@ -6,7 +6,6 @@ import Spinner from 'react-spinner'
 
 
 import Thumbnail from './Thumbnail'
-import './assets/styles/Profile.css'
 import './assets/styles/ThumbnailCollection.css'
 
 export default class Profile extends Component {
@@ -53,15 +52,20 @@ export default class Profile extends Component {
 	}
 
 	// Render playbooks based on the state
-	renderPlaybooks() {
+	renderPlaybooks(editable) {
 		const playbooks = this.state.playbooks
 		if(this.state.playbooks) {
 			return playbooks.map((playbook, i) => (
 				<Link to={`/${playbook.owner}/${playbook.title}`} key={i}>
-					<Thumbnail title={playbook.title} type="playbook" />
+					<Thumbnail removable={editable} title={playbook.title} remove={this.removePlaybook.bind(this)} type="playbook" />
 				</Link>
 			))
 		}
+	}
+
+	removePlaybook(e) {
+		e.preventDefault()
+		console.log(e.target)
 	}
 
 	// Render loading animation
@@ -78,7 +82,7 @@ export default class Profile extends Component {
 				? (
 						<div className="thumbnails">
 							<h1>{this.props.owner ? this.props.owner.displayName : this.state.ownerDisplayName}</h1>
-							{this.renderPlaybooks()}
+							{this.renderPlaybooks(false)}
 						</div>
 				)
 				: (
@@ -91,7 +95,7 @@ export default class Profile extends Component {
     return (
       <div className="thumbnails">
 				<h1>{this.props.owner.displayName}</h1>
-        {this.renderPlaybooks()}
+        {this.renderPlaybooks(true)}
         <Thumbnail type="add playbook">
           <form onSubmit={this.addPlaybook.bind(this)}>
             <input type="text" className="form-control" ref="title"/>

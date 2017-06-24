@@ -30,7 +30,7 @@ export default class Sandbox extends Component {
 					// If we don't have any segments we just want to make a new one with some placeholder text
 					firebase.database()
 						.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
-						.set(['"Hello, world"'])
+						.push('"Hello, world"')
 				}
 			})
 		window.onbeforeunload = this.saveSegments
@@ -77,7 +77,7 @@ export default class Sandbox extends Component {
 				ref={`segment${i}`} 
 				key={i} 
 				focused={this.state.focusIndex === i} 
-				editable={editable} 
+				editable={editable}
 				onclick={() => this.changeFocus(i)}
 			>
 				{segment}
@@ -88,6 +88,7 @@ export default class Sandbox extends Component {
 
 	addSegment() {
 		// Add a segment with placeholder code
+		// TODO: instead of just pushing stuff with random keys, for constistence we should pull down the array and re-push it with the new element, so that we have an array-like structure
 		firebase.database()
 			.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
 			.push('"Hello, world"')
@@ -113,7 +114,8 @@ export default class Sandbox extends Component {
 				<div className="thumbnails" ref="root">
 					{this.renderSegments(this.state.editable)}
 				</div>
-				<Commander 
+				<Commander
+					commands = {commands}
 					ref="commander" 
 					saveSegments={this.saveSegments.bind(this)}
 					addSegment={this.addSegment.bind(this)}

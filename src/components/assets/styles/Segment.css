@@ -19,6 +19,7 @@
 	width: auto;
 	overflow-wrap: break-word;
 	margin-top: 0;
+	cursor: text;
 }
 
 .segmentEditor:focus {
