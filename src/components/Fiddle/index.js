@@ -1,4 +1,3 @@
-// TODO: remove duplicate code from Sandbox.js
 import React, { Component } from 'react'
 import firebase from 'firebase'
 import '../../assets/styles/Editor.css'
