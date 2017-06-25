@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import './assets/styles/Segment.css'
+import '../../assets/styles/Segment.css'
 
 export default class Segment extends Component {
 	constructor(props) {

@@ -1,5 +1,5 @@
-export default [
-	{
+export default {
+	toggleCommander: {
 		command: "Toggle Commander",
 		shortcut: {
 			ctrlKey: true,
@@ -13,7 +13,7 @@ export default [
 			document.body.classList.toggle('inactive')
 		}
 	},
-	{
+	save: {
 		command: "Save",
 		shortcut: {
 			altKey: false,
@@ -23,11 +23,11 @@ export default [
 			mainKey: "S"
 		},
 		description: "Save all the fiddles",
-		handler: function() {
-			this.props.saveSegments()
-		}
+			handler: function() {
+				this.props.saveSegments()
+			}
 	},
-	{
+	addSegment: {
 		command: "Add Segment",
 		shortcut: {
 			altKey: true,
@@ -38,10 +38,10 @@ export default [
 		},
 		description: "Add a segment",
 		handler: function() {
-			this.props.addSegment()
+				this.props.addSegment()
 		}
 	},
-	{
+	evalSegment: {
 		command: "Eval Segment",
 		shortcut: {
 			altKey: false,
@@ -55,4 +55,5 @@ export default [
 			this.props.evalSegment()
 		}
 	}
-]
+}
+	

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import './assets/styles/Command.css'
+import '../../assets/styles/Command.css'
 
 // Visual rendering of a command in the Commander component
 export default class Command extends Component {

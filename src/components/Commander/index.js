@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import './assets/styles/Commander.css'
+import '../../assets/styles/Commander.css'
 
 import Command from './Command'
 

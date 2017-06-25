@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Link, Redirect} from 'react-router-dom'
-import Spinner from 'react-spinner'
 
 import Thumbnail from './Thumbnail'
 import firebase from 'firebase'
@@ -52,56 +51,19 @@ export default class Playbook extends Component {
 		const fiddles = this.state.fiddles
 		if(this.state.fiddles) {
 			return fiddles.map((fiddle, i) => (
-				<Link to={`/${fiddle.owner}/${fiddle.playbook}/${fiddle.title}`} key={i} replace>
-					<Thumbnail title={fiddle.title} type="fiddle" />
-				</Link>
+				<div className="preview" key={i}>
+					<Link to={`/${fiddle.owner}/${fiddle.playbook}/${fiddle.title}`} key={i} replace>
+						<Thumbnail title={fiddle.title} type="fiddle" />
+					</Link>
+					<button className="btn btn-red btn-delete" onClick={() => this.deleteFiddle(i)}>x</button>
+				</div>
 			))
 		}
 	}
 
-	// Render loading animation
-	renderLoading() {
-		return(
-			<Spinner/>
-		)
-	}
-
-	// Render playbook preview
-	renderPreview() {
-		// Do we NOT have a 404 error?
-		return this.state.fiddles !== null && this.state.ownerDisplayName !== null
-			? (
-					<div className="thumbnails">
-					<h1>{this.state.ownerDisplayName}: {this.props.match.params.playbook}</h1>
-					{this.renderFiddles()}
-					</div>
-			)
-			: (
-					<Redirect to="/404"/>
-			)
-	}
-
-	// Render editable playbook
-	renderEditable() {
-		return (
-			<div className="thumbnails">
-				<h1>{this.state.ownerDisplayName}: {this.props.match.params.playbook}</h1>
-				{this.renderFiddles()}
-				<Thumbnail type="add fiddle">
-          <form onSubmit={this.addFiddle.bind(this)}>
-            <input type="text" className="form-control" ref="title"/>
-            <input type="submit" value="Add" className="btn btn-blue"/>
-          </form>
-        </Thumbnail>
-			</div>
-		)
-	}
-
-	// Redirect to the fiddle editing page
-	renderRedirect() {
-		return (
-			<Redirect to={`/${this.props.match.params.user}/${this.props.match.params.playbook}/${this.state.title}`}/>
-		)
+	deleteFiddle(i) {
+		let fiddle = this.state.fiddles[i]
+		firebase.database().ref(`/${fiddle.owner}/${fiddle.playbook}/fiddles/${fiddle.title}`).set(null)
 	}
 
 	// Push data to the db
@@ -130,16 +92,29 @@ export default class Playbook extends Component {
 	render() {
 		return (
 			this.state.submitted
-				? this.renderRedirect()
+				? <Redirect to={`/${this.props.match.params.user}/${this.props.match.params.playbook}/${this.state.title}`} />
 				: (
-						this.state.ownerDisplayName !== undefined
-						? (
-								this.state.editable
-									? this.renderEditable()
-									: this.renderPreview()
-							)
-						: this.renderLoading()
-				)
-		)
+						this.state.fiddles === null && this.state.ownerDisplayName === null && !this.state.editable
+							? <Redirect to="/404"/> 
+							: (
+									<div className="thumbnails">
+										<h1>{this.state.ownerDisplayName}: {this.props.match.params.playbook}</h1>
+										{this.renderFiddles()}
+										{
+											this.state.editable
+												? (
+													<Thumbnail type="add fiddle">
+														<form onSubmit={this.addFiddle.bind(this)}>
+															<input type="text" className="form-control" ref="title" />
+															<input type="submit" value="Add" className="btn btn-blue" />
+														</form>
+													</Thumbnail>
+												)
+												: ""
+										}
+								</div>
+						)
+					)
+			)
 	}
 }

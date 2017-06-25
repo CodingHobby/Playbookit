@@ -3,19 +3,19 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import firebase from 'firebase'
 import Spinner from 'react-spinner'
 
-import './assets/styles/App.css'
-import './assets/styles/Inputs.css'
-import './assets/styles/Auth.css'
-import './assets/styles/Error.css'
+import '../assets/styles/App.css'
+import '../assets/styles/Inputs.css'
+import '../assets/styles/Auth.css'
+import '../assets/styles/Error.css'
 
 import Error404 from './Error404'
-import Fiddle from './Fiddle'
-import Login from './Login'
+import Fiddle from './Fiddle/'
+import Login from './Auth/Login'
 import Nav from './Nav'
-import Playbook from './Playbook'
-import Profile from './Profile'
-import Register from './Register'
-import Sandbox from './Sandbox'
+import Playbook from './Playbook/'
+import Profile from './Playbook/Profile'
+import Register from './Auth/Register'
+import Sandbox from './Fiddle/Sandbox'
 
 export default class App extends Component {
 	// Set the initial state (no user)

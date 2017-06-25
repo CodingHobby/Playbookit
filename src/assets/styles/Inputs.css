@@ -62,6 +62,25 @@
 	margin-top: 10px;
 }
 
+.btn.btn-delete {
+  display: block;
+  margin-left: 20px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  line-height: 20px;
+  color: #d9534f;
+  background-color: transparent;
+  border: 2px solid #d9534f;
+}
+
+.btn.btn-delete:hover {
+  background-color: #d9534f;
+  color: white;
+}
+
+
 .login-buttons {
   margin-left: 5%;
   margin-top: 30px;

@@ -1,12 +1,11 @@
 // TODO: get rid of duplication (abstract away stuff from Playbook.js, too)
 import React, {Component} from 'react'
-import {Link, Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import firebase from 'firebase'
-import Spinner from 'react-spinner'
 
 
 import Thumbnail from './Thumbnail'
-import './assets/styles/ThumbnailCollection.css'
+import '../../assets/styles/ThumbnailCollection.css'
 
 export default class Profile extends Component {
 	constructor(props) {
@@ -53,59 +52,37 @@ export default class Profile extends Component {
 
 	// Render playbooks based on the state
 	renderPlaybooks(editable) {
-		const playbooks = this.state.playbooks
 		if(this.state.playbooks) {
-			return playbooks.map((playbook, i) => (
-				<Link to={`/${playbook.owner}/${playbook.title}`} key={i}>
-					<Thumbnail removable={editable} title={playbook.title} remove={this.removePlaybook.bind(this)} type="playbook" />
-				</Link>
+			return this.state.playbooks.map((playbook, i) => (
+				<div key={i} className="preview">
+					<Link to={`/${playbook.owner}/${playbook.title}`}>
+							<Thumbnail
+								key={i}
+								title={playbook.title}
+								type="playbook"
+							/>
+					</Link>
+					{
+						editable ?
+						(
+							<button className="btn btn-red btn-delete" onClick={() => this.deletePlaybook(i)}>x</button>
+						)
+						: ""
+					}
+					</div>
 			))
 		}
+	}
+
+	deletePlaybook(i) {
+		let playbook = this.state.playbooks[i]
+		firebase.database().ref(`/${playbook.owner}/${playbook.title}`).set(null)
 	}
 
 	removePlaybook(e) {
 		e.preventDefault()
 		console.log(e.target)
 	}
-
-	// Render loading animation
-	renderLoading() {
-		return (
-			<Spinner/>
-		)
-	}
-
-
-	// Render non-editable preview
-	renderPreview() {
-		return this.state.playbooks !== null
-				? (
-						<div className="thumbnails">
-							<h1>{this.props.owner ? this.props.owner.displayName : this.state.ownerDisplayName}</h1>
-							{this.renderPlaybooks(false)}
-						</div>
-				)
-				: (
-					<Redirect to="/404"/>
-				)
-		}
-
-	// Render the editable profile template
-  renderEditable() {
-    return (
-      <div className="thumbnails">
-				<h1>{this.props.owner.displayName}</h1>
-        {this.renderPlaybooks(true)}
-        <Thumbnail type="add playbook">
-          <form onSubmit={this.addPlaybook.bind(this)}>
-            <input type="text" className="form-control" ref="title"/>
-            <input type="submit" value="Add" className="btn btn-blue"/>
-          </form>
-        </Thumbnail>
-      </div>
-    )
-  }
-
 
 	renderRedirect() {
 		return(
@@ -118,15 +95,17 @@ export default class Profile extends Component {
     const title = this.refs.title.value
 		// Set the value of a new node in the firebase database
 		// Possibly we'd want to change the owner property to the displayName of the current user, that way we'll be able to have both uid and displayName without having to go through a large amount of key-value pairs
-		firebase.database()
-			.ref(`/${this.props.owner.uid}/${title}`)
-			.set({
-				title,
-				owner: this.props.owner.uid,
-				ownerDisplayName: this.props.owner.displayName,
-				fiddles: []
-			})
-		this.setState({title, submitted: true})
+		if(title !== "") {
+			firebase.database()
+				.ref(`/${this.props.owner.uid}/${title}`)
+				.set({
+					title,
+					owner: this.props.owner.uid,
+					ownerDisplayName: this.props.owner.displayName,
+					fiddles: []
+				})
+			this.setState({ title, submitted: true })
+		}
   }
 
 	// Render page
@@ -138,16 +117,30 @@ export default class Profile extends Component {
 		3. We can edit the profile
 		*/
 		return (
-			this.state.submitted
-			? this.renderRedirect()
-			: (
-				this.state.playbooks !== undefined && this.state.ownerDisplayName !== null
-				? (
-					this.props.editable
-					? this.renderEditable()
-					: this.renderPreview()
+				this.state.submitted
+				? <Redirect to={`/${this.props.owner.uid}/${this.state.title}`} />
+				: (
+						this.state.playbooks === null && !this.props.editable
+							? <Redirect to="/404"/>
+						:
+						(
+							<div className="thumbnails">
+								<h1>{this.props.owner.displayName}</h1>
+								{this.renderPlaybooks(true)}
+								{
+									this.props.editable
+									? (
+										<Thumbnail type="add playbook">
+											<form onSubmit={this.addPlaybook.bind(this)}>
+												<input type="text" className="form-control" ref="title" />
+												<input type="submit" value="Add" className="btn btn-blue" />
+											</form>
+										</Thumbnail>
+									)
+									: ""
+								}
+						</div>
 				)
-				: this.renderLoading()
 			)
 		)
 	}

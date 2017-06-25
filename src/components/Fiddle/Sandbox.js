@@ -1,22 +1,29 @@
 import React, {Component} from 'react'
 
-import Commander from './Commander'
-import commands from './Commands'
+import Commander from '../Commander/'
+import commands from '../Commander/commands/'
 import Segment from './Segment'
 import firebase from 'firebase'
 
-import './assets/styles/Sandbox.css'
+import '../../assets/styles/Sandbox.css'
+
+const commandArray = Object.keys(commands).map(k => commands[k])
+
 
 export default class Sandbox extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {segments: [], focusIndex: 0}
+		this.state = {
+			segments: [], 
+			focusIndex: 0,
+			ref: `/users/${this.props.match.params.user}/sandbox/segments`
+		}
 	}
 
 	componentDidMount() {
 		firebase.database()
 			// We can't put the reference in the UID/sandbox path, since they could just make a "sandbox" playbook, and then we'd have some strange conflicts
-			.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
+			.ref(this.state.ref)
 			.on('value', snap => {
 				const segments = snap.val()
 				if(segments) {
@@ -29,7 +36,7 @@ export default class Sandbox extends Component {
 				} else {
 					// If we don't have any segments we just want to make a new one with some placeholder text
 					firebase.database()
-						.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
+						.ref(this.state.ref)
 						.push('"Hello, world"')
 				}
 			})
@@ -66,7 +73,7 @@ export default class Sandbox extends Component {
 		}
 		// And then set firebase's data to that
 		firebase.database()
-			.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
+			.ref(this.state.ref)
 			.set(newSegments)
 		this.setState({segments: newSegments})
 	}
@@ -88,9 +95,8 @@ export default class Sandbox extends Component {
 
 	addSegment() {
 		// Add a segment with placeholder code
-		// TODO: instead of just pushing stuff with random keys, for constistence we should pull down the array and re-push it with the new element, so that we have an array-like structure
 		firebase.database()
-			.ref(`/users/${this.props.match.params.user}/sandbox/segments`)
+			.ref(this.state.ref)
 			.push('"Hello, world"')
 	}
 
@@ -98,6 +104,7 @@ export default class Sandbox extends Component {
 	evalSegment() {
 		// We need to try and catch since there could be errors in the code which would crash the app
 		try {
+			// eslint-disable-next-line
 			const output = eval(this.refs[`segment${this.state.focusIndex}`].refs.editor.innerText)
 			this.refs[`segment${this.state.focusIndex}`].refs.eval.innerText = output
 			this.saveSegments()
@@ -115,13 +122,18 @@ export default class Sandbox extends Component {
 					{this.renderSegments(this.state.editable)}
 				</div>
 				<Commander
-					commands = {commands}
+					commands = {commandArray}
 					ref="commander" 
 					saveSegments={this.saveSegments.bind(this)}
 					addSegment={this.addSegment.bind(this)}
 					evalSegment={this.evalSegment.bind(this)}
 				/>
-				<button className="static-button btn btn-blue" onClick={commands[0].handler.bind(this.refs.commander)}>CMD</button>
+				<button 
+					className="static-button btn btn-blue" 
+					onClick={commands.toggleCommander.handler.bind(this.refs.commander)}
+				>
+					CMD
+				</button>
 			</div>
 		)
 	}
