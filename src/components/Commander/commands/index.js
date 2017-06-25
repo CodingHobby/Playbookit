@@ -38,7 +38,7 @@ export default {
 		},
 		description: "Add a segment",
 		handler: function() {
-				this.props.addSegment()
+			this.props.addSegment()
 		}
 	},
 	evalSegment: {

@@ -4,7 +4,7 @@ import Commander from '../Commander/'
 import commands from '../Commander/commands/'
 import Segment from './Segment'
 import firebase from 'firebase'
-
+import utils from './utils'
 import '../../assets/styles/Sandbox.css'
 
 const commandArray = Object.keys(commands).map(k => commands[k])
@@ -34,20 +34,17 @@ export default class Sandbox extends Component {
 					// Set the state to the firebase data
 					this.setState({segments: newState})
 				} else {
-					// If we don't have any segments we just want to make a new one with some placeholder text
-					firebase.database()
-						.ref(this.state.ref)
-						.push('"Hello, world"')
+					utils.addSegment()
 				}
 			})
-		window.onbeforeunload = this.saveSegments
+		window.onbeforeunload = utils.saveSegments.bind(this)
 		// We want to check whether we can edit the sandbox
 		this.setState({ editable: this.props.match.params.user === firebase.auth().currentUser.uid})
 	}
 
 	// When we change page we want to save all our segments
 	componentWillUnmount() {
-		this.saveSegments()
+		utils.saveSegments.bind(this)()
 	}
 
 	// When we update the state we want to focus the element the new state points to
@@ -59,74 +56,21 @@ export default class Sandbox extends Component {
 			activeSegment.refs.editor.focus()
 		}
 	}
-
-	// We can't manually add event listeners on update, since that would basically add more and more and crash everything
-	changeFocus(i) {
-		this.setState({ focusIndex: i })
-	}
-
-	saveSegments() {
-		// We want to push the content of each Segment editor to the "neweSegments" array
-		let newSegments = []
-		for(var i = 0; i < this.state.segments.length; i++) {
-			newSegments.push(this.refs[`segment${i}`].refs.editor.innerText)
-		}
-		// And then set firebase's data to that
-		firebase.database()
-			.ref(this.state.ref)
-			.set(newSegments)
-		this.setState({segments: newSegments})
-	}
-
-	renderSegments(editable) {
-		return this.state.segments.map((segment, i) => (
-			<Segment 
-				ref={`segment${i}`} 
-				key={i} 
-				focused={this.state.focusIndex === i} 
-				editable={editable}
-				onclick={() => this.changeFocus(i)}
-			>
-				{segment}
-			</Segment>
-			)
-		)
-	}
-
-	addSegment() {
-		// Add a segment with placeholder code
-		firebase.database()
-			.ref(this.state.ref)
-			.push('"Hello, world"')
-	}
-
-	// Evaluate the currently focused segment
-	evalSegment() {
-		// We need to try and catch since there could be errors in the code which would crash the app
-		try {
-			// eslint-disable-next-line
-			const output = eval(this.refs[`segment${this.state.focusIndex}`].refs.editor.innerText)
-			this.refs[`segment${this.state.focusIndex}`].refs.eval.innerText = output
-			this.saveSegments()
-		} catch(e) {
-			console.error(e)
-		}
-	}
-
+	
 	// Render the sandbox
 	render() {
 		return (
 			<div className="sandbox">
 				<h1>Sandbox</h1>
 				<div className="thumbnails" ref="root">
-					{this.renderSegments(this.state.editable)}
+					{utils.renderSegments.bind(this)(this.state.editable)}
 				</div>
 				<Commander
 					commands = {commandArray}
 					ref="commander" 
-					saveSegments={this.saveSegments.bind(this)}
-					addSegment={this.addSegment.bind(this)}
-					evalSegment={this.evalSegment.bind(this)}
+					saveSegments={utils.saveSegments.bind(this)}
+					addSegment={utils.addSegment.bind(this)}
+					evalSegment={utils.evalSegment.bind(this)}
 				/>
 				<button 
 					className="static-button btn btn-blue" 
