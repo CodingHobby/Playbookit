@@ -15,7 +15,7 @@ import Nav from './Nav'
 import Playbook from './Playbook/'
 import Profile from './Playbook/Profile'
 import Register from './Auth/Register'
-import Sandbox from './Fiddle/Sandbox'
+import UserSettings from './Auth/UserSettings'
 
 export default class App extends Component {
 	// Set the initial state (no user)
@@ -48,23 +48,22 @@ export default class App extends Component {
           <Nav user={user}/>
 					{/* Switch is important for pattern-matching in the routes: it will match the first route it finds, so that's why the seem like they're in a weird order */}
 					<div className="content">
-          <Switch>
-						<Route exact path="/404" component={Error404}/>
-            <Route exact path="/login" component={Login} user={user}/>
-            <Route exact path="/register" component={Register} user={user}/>
-						{/* We need to use this impractically long URL so that we avoid conficlict between this and playbooks*/}
-						<Route exact path="/:user/profile/code/sandbox" component={Sandbox} user={user}/>
-            <Route exact path="/:user/:playbook/:fiddle" component={Fiddle} user={user}/>
-            <Route exact path="/:user/:playbook/" component={Playbook} user={user}/>
-            <Route exact path="/:user" component={Profile} user={user}/>
-						{/* Are we logged in? If we are then we want to render our home page, otherwise we want to render the login page */}
-            <Route exact path="/" render={() => (
-							user ?
-								<Profile owner={user} editable/> :
-								<Redirect to="/login"/>
-						)}/>
-						<Route component={Error404}/>
-          </Switch>
+						<Switch>
+							<Route exact path="/404" component={Error404}/>
+							<Route exact path="/login" render={props => <Login {...props} user={user}/>} />
+							<Route exact path="/register" render={props => <Register {...props} user={user}/>} />
+							<Route exact path="/user/profile/settings" render={props => <UserSettings {...props} user={user}/>}/>
+							<Route exact path="/:user/:playbook/:fiddle" render={props => <Fiddle {...props} user={user}/>}/>
+							<Route exact path="/:user/:playbook/" render={props => <Playbook {...props} user={user}/>}/>
+							<Route exact path="/:user" render={props => <Profile {...props} user={user}/>}/>
+							{/* Are we logged in? If we are then we want to render our home page, otherwise we want to render the login page */}
+							<Route exact path="/" render={() => (
+								user ?
+									<Profile owner={user} editable/> :
+									<Redirect to="/login"/>
+							)}/>
+							<Route component={Error404}/>
+						</Switch>
 					</div>
         </div>
       </Router>

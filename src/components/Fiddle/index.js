@@ -4,7 +4,6 @@ import '../../assets/styles/Editor.css'
 
 import Commander from '../Commander/'
 import {Redirect} from 'react-router-dom'
-import Segment from './Segment'
 import utils from './utils'
 import commands from '../Commander/commands/'
 const commandArray = Object.keys(commands).map(k => commands[k])
@@ -24,20 +23,17 @@ export default class Fiddle extends Component {
 			.ref(this.state.ref)
 			.on('value', snap => {
 				const snapshot = snap.val()
-				// FIXME: we probably don't need to check if it's an empty array, since firebase would delete the node completely. Instead we want to set it to an array with only one element and prevent the last fiddle to be deleted
 				if (snapshot) {
 					let ks = Object.keys(snapshot)
 					let segments = []
 					ks.forEach(k => segments.push(snapshot[k]))
 					this.setState({ segments })
-				} else if(snapshot === []) {
-					utils.addSegment()
 				} else {
 					this.setState({ wrongUrl: true })
 				}
 			})
 		window.onbeforeunload = utils.saveSegments.bind(this)
-		// We want to check whether we can edit the sandbox
+		// We want to check whether we can edit the fiddle
 		this.setState({ editable: this.props.match.params.user === firebase.auth().currentUser.uid })
 	}
 

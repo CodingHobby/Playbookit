@@ -26,7 +26,7 @@ export default class Segment extends Component {
 					<pre className="segmentEditor" onFocus={() => this.setState({active: true})} contentEditable={this.props.editable} ref="editor"></pre>
 				</div>
 				<div>
-					<pre className="segmentEval" ref="eval">Eval</pre>
+					<pre className="segmentEval" ref="eval"></pre>
 				</div>
 			</div>
 		)

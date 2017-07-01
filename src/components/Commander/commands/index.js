@@ -8,6 +8,7 @@ export default {
 			mainKeyCode: 80,
 			mainKey: "P",
 		},
+		description: "Toggle the commander window",
 		handler: function (e) {
 			this.refs.root.classList.toggle('active')
 			document.body.classList.toggle('inactive')

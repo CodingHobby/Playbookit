@@ -1,8 +1,10 @@
 Current task:
-	☐ Refractoring!!
+	☐ Unify sandbox and fiddle into single file (possibly even delete sandbox)
+	✔ Refractoring!! @done (26/06/2017, 22:36:21)
 
 Immidiate Todos:
 	☐ Profile images + Identicons
+	☐ Search bar for other user's fiddles
 	✔ Possibly change playbooks and fiddles to "stories", kinda like the sandbox @done (24/06/2017, 17:20:36)
 
 Authentication:
@@ -28,7 +30,7 @@ Features:
 	✔ Fiddles editor @done (18/06/2017, 22:18:52)
 	✔ Proper tabbing in the editor @done (18/06/2017, 22:18:53)
 	☐ Syntax highlighting
-	☐ Deleting users, playbooks and fiddles
+	✔ Deleting users, playbooks and fiddles @done (26/06/2017, 22:37:35)
 	☐ Quickly switching between fiddles of the same playbook (something like a command palette)
 	✔ Sandbox section, where you can have different one-liners to test: this will be unique and stored as an array in Firebase @done (20/06/2017, 23:44:26)
 		✔ Command palette @done (20/06/2017, 23:44:27)
@@ -47,7 +49,7 @@ Editor:
 	☐ Automatic indent
 	☐ Bracket matching
 	☐ Automatic bracket insertion
-	☐ Make more similar to "sandbox": insert pieces of codes interrupted by pieces of text
+	✔ Make more similar to "sandbox": insert pieces of codes interrupted by pieces of text @done (26/06/2017, 22:37:59)
 	☐ Add description + possibility to set a language
 
 Sandbox:
@@ -56,3 +58,7 @@ Sandbox:
 	✔ Delete snippets @done (20/06/2017, 23:42:34)
 	✔ Command palette with different, dynamic commands (possibly store in a separate Commands.js files) @done (20/06/2017, 23:42:37)
 	✔ Add and remove segments @done (20/06/2017, 23:42:47)
+
+Commander:
+	☐ Add markdown blocks
+	☐ Delete fiddle
