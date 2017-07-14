@@ -12,13 +12,8 @@ export default class Nav extends Component {
 					{/* TODO: Substitute dropdown icon with user profile picture */}
 					<li>
 						<Dropdown>
-							{/* TODO: automate this in the Dropdown component, and loop over this.props.children to add the dropdown-link class*/}
-							<div className="dropdown-link">
 							<NavLink to="/login" activeClassName="active">Login</NavLink>
-							</div>
-							<div className="dropdown-link">
-								<NavLink to="/register" activeClassName="active">Register</NavLink>
-							</div>
+							<NavLink to="/register" activeClassName="active">Register</NavLink>
 						</Dropdown>
 					</li>
 					<li>
