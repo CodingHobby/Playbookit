@@ -5,12 +5,7 @@ import Segment from './Segment'
 
 export default {
 	saveSegments: function() {
-		// We want to push the content of each Segment editor to the "neweSegments" array
-		let newSegments = []
-		for (var i = 0; i < this.state.segments.length; i++) {
-			newSegments.push(this.refs[`segment${i}`].refs.editor.innerText)
-		}
-		// And then set firebase's data to that
+		const newSegments = getNewSegments(this.state.segments.length, this.refs)
 		firebase.database()
 			.ref(this.state.ref)
 			.set(newSegments)
@@ -44,4 +39,13 @@ export default {
 			console.error(e)
 		}
 	}
+}
+
+const getNewSegments = function(segmentsNo, refs) {
+		// We want to push the content of each Segment editor to the "neweSegments" array
+		let newSegments = []
+		for (var i = 0; i < segmentsNo; i++) {
+			newSegments.push(refs[`segment${i}`].refs.editor.innerText)
+		}
+		return newSegments
 }
